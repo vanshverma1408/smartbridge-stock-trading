@@ -1,0 +1,14 @@
+'use strict';
+const express = require('express');
+const router = express.Router();
+const stockController = require('../controllers/stockController');
+const { protect, adminOnly } = require('../middleware/auth');
+router.get('/', stockController.getStocks);
+router.get('/prices/live', protect, stockController.getLivePrices);
+router.post('/seed/all', protect, adminOnly, stockController.seedStocks);
+router.get('/:symbol', stockController.getStock);
+router.get('/:symbol/history', protect, stockController.getStockHistory);
+router.post('/', protect, adminOnly, stockController.createStock);
+router.put('/:symbol', protect, adminOnly, stockController.updateStock);
+router.delete('/:symbol', protect, adminOnly, stockController.deleteStock);
+module.exports = router;
